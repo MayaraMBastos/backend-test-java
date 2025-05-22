@@ -100,21 +100,19 @@ private EmpresaDTO empresa;
 
     Map<String, Object> response = new HashMap<>();
 
-    String cnpjLimpo = empresa.cnpj.replaceAll("[^0-9]", "");
-
     // Validação por EmpresaValidator
     Map<String, Object> erros = empresaValidator.validarCadastroDeEmpresa(empresa);
     if (!erros.isEmpty()) {
       response.put("erros", erros);
       return response;
+
+    } else {
+
+      String sql = "INSERT INTO empresas (nome, cnpj, endereco) VALUES (?, ?, ?)";
+      int rows = jdbcTemplate.update(sql, empresa.nome, empresa.cnpj, empresa.endereco);
+      response.put("mensagem", "Empresa cadastrada com sucesso.");
+      response.put("linhasAfetadas", rows);
     }
-
-
-    String sql = "INSERT INTO empresas (nome, cnpj, endereco) VALUES (?, ?, ?)";
-    int rows = jdbcTemplate.update(sql, empresa.nome, cnpjLimpo, empresa.endereco);
-    response.put("mensagem", "Empresa cadastrada com sucesso.");
-    response.put("linhasAfetadas", rows);
-
     return response;
   }
 
@@ -131,25 +129,24 @@ private EmpresaDTO empresa;
   public Map<String, Object> atualizarEmpresa(@PathVariable String cnpj, @RequestBody EmpresaDTO empresa) {
     Map<String, Object> response = new HashMap<>();
 
-    String cnpjLimpo = empresa.cnpj.replaceAll("[^0-9]", "");
-
     // Validação por EmpresaValidator
     Map<String, Object> erros = empresaValidator.validarCadastroDeEmpresa(empresa);
     if (!erros.isEmpty()) {
       response.put("erros", erros);
       return response;
+    } else {
+
+      String sql = "UPDATE empresas SET nome = ?, endereco = ? WHERE cnpj = ?";
+      int rows = jdbcTemplate.update(sql, empresa.nome, empresa.endereco, cnpj);
+// a consulta deve ser feita antes de atualizar MODIFICAR
+      if (rows == 0) {
+        response.put("erro", "Nenhuma empresa encontrada com o CNPJ fornecido.");
+        return response;
+      }
+
+      response.put("mensagem", "Empresa atualizada com sucesso.");
+      response.put("linhasAfetadas", rows);
     }
-
-    String sql = "UPDATE empresas SET nome = ?, endereco = ? WHERE cnpj = ?";
-    int rows = jdbcTemplate.update(sql, empresa.nome, empresa.endereco, cnpj);
-
-    if (rows == 0) {
-      response.put("erro", "Nenhuma empresa encontrada com o CNPJ fornecido.");
-      return response;
-    }
-
-    response.put("mensagem", "Empresa atualizada com sucesso.");
-    response.put("linhasAfetadas", rows);
     return response;
   }
 }
