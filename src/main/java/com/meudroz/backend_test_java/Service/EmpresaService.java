@@ -42,5 +42,6 @@ public class EmpresaService {
 
         response.put("mensagem", "Empresa atualizada com sucesso.");
         response.put("linhasAfetadas", rows);
+        return response;
     }
 }
