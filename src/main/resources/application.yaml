@@ -3,8 +3,8 @@ spring:
     name: backend-test-java
   datasource:
     url: jdbc:mysql://mysql_backend_test_java:3306/backend-test-java
-    username: admin
-    password: admin
+    username: root
+    password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.xml

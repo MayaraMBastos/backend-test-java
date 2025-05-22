@@ -1,4 +1,4 @@
-package com.meudroz.backend_test_java;
+package com.meudroz.backend_test_java.Controller;
 
 import java.util.HashMap;
 import java.util.List;
