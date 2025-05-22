@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.meudroz.backend_test_java.EmpresaDTO.EmpresaDTO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,17 +33,7 @@ public class EmpresaController {
     this.jdbcTemplate = jdbcTemplate;
   }
 
-  @Schema(name = "EmpresaDTO", description = "Dados da empresa")
-  public static class EmpresaDTO {
-    @Schema(description = "Nome da empresa", example = "JAVA TESTE Ltda")
-    public String nome;
-
-    @Schema(description = "CNPJ da empresa", example = "12345678000112")
-    public String cnpj;
-
-    @Schema(description = "Endereço da empresa", example = "Rua do teste, 123")
-    public String endereco;
-  }
+private EmpresaDTO empresa;
 
   @Operation(summary = "Listar todas as empresas")
   @ApiResponse(responseCode = "200", description = "Lista de empresas cadastradas", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(example = """
