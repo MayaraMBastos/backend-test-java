@@ -100,6 +100,8 @@ private EmpresaDTO empresa;
 
     Map<String, Object> response = new HashMap<>();
 
+    String cnpjLimpo = empresa.cnpj.replaceAll("[^0-9]", "");
+
     // Validação por EmpresaValidator
     Map<String, Object> erros = empresaValidator.validarCadastroDeEmpresa(empresa);
     if (!erros.isEmpty()) {
@@ -107,7 +109,7 @@ private EmpresaDTO empresa;
       return response;
     }
 
-    String cnpjLimpo = empresa.cnpj.replaceAll("[^0-9]", "");
+
     String sql = "INSERT INTO empresas (nome, cnpj, endereco) VALUES (?, ?, ?)";
     int rows = jdbcTemplate.update(sql, empresa.nome, cnpjLimpo, empresa.endereco);
     response.put("mensagem", "Empresa cadastrada com sucesso.");
@@ -129,17 +131,12 @@ private EmpresaDTO empresa;
   public Map<String, Object> atualizarEmpresa(@PathVariable String cnpj, @RequestBody EmpresaDTO empresa) {
     Map<String, Object> response = new HashMap<>();
 
-    if (empresa.nome == null || empresa.nome.trim().isEmpty()) {
-      response.put("erro", "O nome é obrigatório.");
-      return response;
-    }
-    if (empresa.nome.length() > 100) {
-      response.put("erro", "O nome pode ter no máximo 100 caracteres.");
-      return response;
-    }
+    String cnpjLimpo = empresa.cnpj.replaceAll("[^0-9]", "");
 
-    if (empresa.endereco != null && empresa.endereco.length() > 200) {
-      response.put("erro", "O endereço pode ter no máximo 200 caracteres.");
+    // Validação por EmpresaValidator
+    Map<String, Object> erros = empresaValidator.validarCadastroDeEmpresa(empresa);
+    if (!erros.isEmpty()) {
+      response.put("erros", erros);
       return response;
     }
 
