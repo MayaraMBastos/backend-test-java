@@ -19,3 +19,5 @@ public class EmpresaDTO {
     @NotBlank(message = "O endereço da empresa é obrigatório")
     public String endereco;
 }
+
+
