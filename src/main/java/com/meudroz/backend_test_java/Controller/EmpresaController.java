@@ -99,17 +99,9 @@ public class EmpresaController {
     })
     @PutMapping(value = "/{cnpj}", consumes = "application/json", produces = "application/json")
     public Map<String, Object> atualizarEmpresa(@PathVariable String cnpj, @RequestBody EmpresaDTO empresa) {
-        Map<String, Object> response = new HashMap<>();
 
-        // Validação por EmpresaValidator
-        Map<String, Object> erros = empresaValidator.validarCadastroDeEmpresa(empresa);
-        if (!erros.isEmpty()) {
-            response.put("erros", erros);
-            return response;
-        } else {
-            Map<String, Object> sucesso = empresaService.atualizarEmpresa(empresa);
-            return sucesso;
-        }
+            return empresaService.atualizarEmpresa(cnpj, empresa);
+
 
     }
 }

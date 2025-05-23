@@ -1,5 +1,6 @@
 package com.meudroz.backend_test_java.Repository;
 
+import com.meudroz.backend_test_java.EmpresaDTO.EmpresaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,6 +20,17 @@ public class EmpresaRepository {
     }
 
 
+    public boolean existeEmpresaPorCnpj(String cnpj) {
+        String sql = "SELECT COUNT(*) FROM empresas WHERE cnpj = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, cnpj);
+        return count != null && count > 0;
+    }
+
+
+    public int atualizarEmpresaPorCnpj(String cnpj, EmpresaDTO empresa) {
+        String sql = "UPDATE empresas SET nome = ?, endereco = ? WHERE cnpj = ?";
+        return jdbcTemplate.update(sql, empresa.nome, empresa.endereco, cnpj);
+    }
 
 
     public List<Map<String, Object>> listarEmpresas() {
