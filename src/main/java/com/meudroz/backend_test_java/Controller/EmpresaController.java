@@ -50,17 +50,10 @@ public class EmpresaController {
               }
             """))))
     @GetMapping(produces = "application/json")
-    public List<Map<String, Object>> listarEmpresas() {
-        String sql = "SELECT nome, cnpj, endereco FROM empresas";
-        List<Map<String, Object>> empresas = jdbcTemplate.queryForList(sql);
-
-        for (Map<String, Object> empresa : empresas) {
-            String cnpj = (String) empresa.get("cnpj");
-            empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
-        }
-
-        return empresas;
+    public List<Map<String, Object>> listarEmpresas()  {
+        return empresaService.listarEmpresas();
     }
+
 
     @Operation(summary = "Buscar uma empresa pelo CNPJ")
     @ApiResponses(value = {

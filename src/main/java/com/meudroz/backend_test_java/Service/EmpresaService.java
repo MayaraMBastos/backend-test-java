@@ -2,11 +2,11 @@ package com.meudroz.backend_test_java.Service;
 
 import com.meudroz.backend_test_java.EmpresaDTO.EmpresaDTO;
 import com.meudroz.backend_test_java.Repository.EmpresaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -18,6 +18,21 @@ public class EmpresaService {
     public EmpresaService(EmpresaRepository empresaRepository) {
         this.empresaRepository = empresaRepository;
     }
+
+    public List<Map<String, Object>> listarEmpresas() {
+        // Chama o repositório para buscar a lista de empresas
+        List<Map<String, Object>> empresas = empresaRepository.listarEmpresas();
+
+        // Lógica adicional: Caso necessário, formate os dados aqui.
+        // Por exemplo, podemos mover a formatação do CNPJ para o Service.
+        for (Map<String, Object> empresa : empresas) {
+            String cnpj = (String) empresa.get("cnpj");
+            empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
+        }
+
+        return empresas;
+    }
+
 
     public Map<String, Object> cadastrarEmpresa(EmpresaDTO empresa){
         Map<String, Object> response = new HashMap<>();
