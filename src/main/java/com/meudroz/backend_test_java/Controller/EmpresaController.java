@@ -29,19 +29,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Empresas", description = "Endpoints para cadastro e consulta de empresas")
 public class EmpresaController {
 
-    private final JdbcTemplate jdbcTemplate;
 
-    private EmpresaValidator empresaValidator = new EmpresaValidator();
 
     private EmpresaService empresaService;
 
-    private EmpresaDTO empresa;
 
-    public EmpresaController(JdbcTemplate jdbcTemplate, EmpresaValidator empresaValidator, EmpresaService empresaService, EmpresaDTO empresa) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.empresaValidator = empresaValidator;
+    public EmpresaController(EmpresaService empresaService) {
         this.empresaService = empresaService;
-        this.empresa = empresa;
     }
 
     @Operation(summary = "Listar todas as empresas")
