@@ -33,6 +33,23 @@ public class EmpresaService {
         return empresas;
     }
 
+    public Map<String, Object> buscarPorCnpj(String cnpj) {
+        List<Map<String, Object>> resultado = empresaRepository.buscarPorCnpj(cnpj);
+
+        if (resultado.isEmpty()) {
+            return Map.of("erro", "Empresa não encontrada com o CNPJ fornecido.");
+        }
+
+        Map<String, Object> empresa = resultado.get(0);
+
+        String cnpjFormatado = ((String) empresa.get("cnpj"))
+                .replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");
+
+        empresa.put("cnpj", cnpjFormatado);
+
+        return empresa;
+    }
+
 
     public Map<String, Object> cadastrarEmpresa(EmpresaDTO empresa){
         Map<String, Object> response = new HashMap<>();
