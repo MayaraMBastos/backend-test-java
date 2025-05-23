@@ -66,21 +66,10 @@ public class EmpresaController {
                     """)))
     })
     @GetMapping(value = "/{cnpj}", produces = "application/json")
-    public Object buscarPorCnpj(@PathVariable String cnpj) {
-        String sql = "SELECT nome, cnpj, endereco FROM empresas WHERE cnpj = ?";
-        List<Map<String, Object>> resultado = jdbcTemplate.queryForList(sql, cnpj);
-
-        if (resultado.isEmpty()) {
-            return Map.of("erro", "Empresa não encontrada com o CNPJ fornecido.");
-        }
-
-        Map<String, Object> empresa = resultado.get(0);
-        String cnpjFormatado = ((String) empresa.get("cnpj")).replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})",
-                "$1.$2.$3/$4-$5");
-        empresa.put("cnpj", cnpjFormatado);
-
-        return empresa;
+    public Object buscarPorCnpj(@PathVariable String cnpj)  {
+        return empresaService.buscarPorCnpj(cnpj);
     }
+
 
     @Operation(summary = "Cadastrar uma nova empresa")
     @ApiResponses(value = {
