@@ -28,5 +28,11 @@ public class EmpresaRepository {
         return jdbcTemplate.queryForList(sql);
     }
 
+    public List<Map<String, Object>> buscarPorCnpj(String cnpj) {
+        String sql = "SELECT nome, cnpj, endereco FROM empresas WHERE cnpj = ?";
+        return jdbcTemplate.queryForList(sql, cnpj);
+    }
+
+
 
 }
