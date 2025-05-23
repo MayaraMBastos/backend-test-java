@@ -84,20 +84,34 @@ public class EmpresaService {
 
 
 
-public Map<String, Object> atualizarEmpresa(EmpresaDTO empresa){
+    public Map<String, Object> atualizarEmpresa(String cnpj, EmpresaDTO empresa) {
         Map<String, Object> response = new HashMap<>();
 
 
-        int rows = empresaRepository.atualizarEmpresa(empresa.nome, empresa.endereco, empresa.cnpj);
-
-        if (rows == 0) {
-            response.put("erro", "Nenhuma empresa encontrada com o CNPJ fornecido.");
+        Map<String, Object> erros = empresaValidator.validarCadastroDeEmpresa(empresa);
+        if (!erros.isEmpty()) {
+            response.put("erros", erros);
             return response;
         }
 
-        response.put("mensagem", "Empresa atualizada com sucesso.");
-        response.put("linhasAfetadas", rows);
+
+        boolean empresaExiste = empresaRepository.existeEmpresaPorCnpj(cnpj);
+        if (!empresaExiste) {
+            response.put("erro", "Empresa não encontrada com o CNPJ fornecido.");
+            return response;
+        }
+
+
+        int linhasAfetadas = empresaRepository.atualizarEmpresaPorCnpj(cnpj, empresa);
+        if (linhasAfetadas > 0) {
+            response.put("mensagem", "Empresa atualizada com sucesso.");
+            response.put("linhasAfetadas", linhasAfetadas);
+        } else {
+            response.put("erro", "Erro ao atualizar a empresa.");
+        }
+
         return response;
     }
+
 
 }

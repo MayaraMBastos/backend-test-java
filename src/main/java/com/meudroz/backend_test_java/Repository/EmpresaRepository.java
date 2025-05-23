@@ -18,10 +18,8 @@ public class EmpresaRepository {
         return jdbcTemplate.update(sql, nome, cnpj, endereco);
     }
 
-    public int atualizarEmpresa(String nome, String endereco, String cnpj) {
-        String sql = "UPDATE empresas SET nome = ?, endereco = ? WHERE cnpj = ?";
-        return jdbcTemplate.update(sql, nome, endereco, cnpj);
-    }
+
+
 
     public List<Map<String, Object>> listarEmpresas() {
         String sql = "SELECT nome, cnpj, endereco FROM empresas";
