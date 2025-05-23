@@ -84,19 +84,9 @@ public class EmpresaController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     public Map<String, Object> cadastrarEmpresa(@RequestBody EmpresaDTO empresa) {
 
-        Map<String, Object> response = new HashMap<>();
+            return empresaService.cadastrarEmpresa(empresa);
 
-        // Validação por EmpresaValidator
-        Map<String, Object> erros = empresaValidator.validarCadastroDeEmpresa(empresa);
-        if (!erros.isEmpty()) {
-            response.put("erros", erros);
-            return response;
-
-        } else {
-            Map<String, Object> sucesso = empresaService.cadastrarEmpresa(empresa);
-            return sucesso;
         }
-    }
 
     @Operation(summary = "Atualizar dados de uma empresa pelo CNPJ")
     @ApiResponses(value = {

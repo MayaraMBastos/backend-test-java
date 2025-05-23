@@ -3,6 +3,8 @@ package com.meudroz.backend_test_java.Service;
 import com.meudroz.backend_test_java.EmpresaDTO.EmpresaDTO;
 import com.meudroz.backend_test_java.Repository.EmpresaRepository;
 
+import com.meudroz.backend_test_java.Utils.EmpresaValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -13,10 +15,15 @@ import java.util.Map;
 public class EmpresaService {
 
 
+    @Autowired
     private EmpresaRepository empresaRepository;
+    @Autowired
+    private EmpresaValidator empresaValidator;
 
-    public EmpresaService(EmpresaRepository empresaRepository) {
+
+    public EmpresaService(EmpresaRepository empresaRepository, EmpresaValidator empresaValidator) {
         this.empresaRepository = empresaRepository;
+        this.empresaValidator = empresaValidator;
     }
 
     public List<Map<String, Object>> listarEmpresas() {
@@ -51,17 +58,33 @@ public class EmpresaService {
     }
 
 
-    public Map<String, Object> cadastrarEmpresa(EmpresaDTO empresa){
+    public Map<String, Object> cadastrarEmpresa(EmpresaDTO empresa) {
         Map<String, Object> response = new HashMap<>();
-        int rows = empresaRepository.inserirEmpresa(empresa.nome, empresa.cnpj, empresa.endereco);
 
-        response.put("mensagem", "Empresa cadastrada com sucesso.");
-        response.put("linhasAfetadas", rows);
+
+        Map<String, Object> erros = empresaValidator.validarCadastroDeEmpresa(empresa);
+        if (!erros.isEmpty()) {
+            response.put("erros", erros);
+            return response;
+        }
+
+
+        int linhasAfetadas = empresaRepository.inserirEmpresa(empresa.nome, empresa.cnpj, empresa.endereco);
+
+
+        if (linhasAfetadas > 0) {
+            response.put("mensagem", "Empresa cadastrada com sucesso.");
+            response.put("linhasAfetadas", linhasAfetadas);
+        } else {
+            response.put("erro", "Falha ao cadastrar a empresa.");
+        }
 
         return response;
     }
 
-    public Map<String, Object> atualizarEmpresa(EmpresaDTO empresa){
+
+
+public Map<String, Object> atualizarEmpresa(EmpresaDTO empresa){
         Map<String, Object> response = new HashMap<>();
 
 
@@ -76,4 +99,5 @@ public class EmpresaService {
         response.put("linhasAfetadas", rows);
         return response;
     }
+
 }
