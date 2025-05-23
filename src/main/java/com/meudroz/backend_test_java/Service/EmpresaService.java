@@ -4,6 +4,7 @@ import com.meudroz.backend_test_java.EmpresaDTO.EmpresaDTO;
 import com.meudroz.backend_test_java.Repository.EmpresaRepository;
 
 import com.meudroz.backend_test_java.Utils.EmpresaValidator;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -55,7 +56,7 @@ public class EmpresaService {
     }
 
 
-    public Map<String, Object> cadastrarEmpresa(EmpresaDTO empresa) {
+    public Map<String, Object> cadastrarEmpresa(@Valid EmpresaDTO empresa) {
         Map<String, Object> response = new HashMap<>();
 
 
@@ -81,7 +82,7 @@ public class EmpresaService {
 
 
 
-    public Map<String, Object> atualizarEmpresa(String cnpj, EmpresaDTO empresa) {
+    public Map<String, Object> atualizarEmpresa(String cnpj, @Valid EmpresaDTO empresa) {
         Map<String, Object> response = new HashMap<>();
 
 
