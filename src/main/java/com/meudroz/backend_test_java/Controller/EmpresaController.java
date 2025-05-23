@@ -7,6 +7,7 @@ import java.util.Map;
 import com.meudroz.backend_test_java.EmpresaDTO.EmpresaDTO;
 import com.meudroz.backend_test_java.Service.EmpresaService;
 import com.meudroz.backend_test_java.Utils.EmpresaValidator;
+import jakarta.validation.Valid;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,7 +80,7 @@ public class EmpresaController {
     })
 
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public Map<String, Object> cadastrarEmpresa(@RequestBody EmpresaDTO empresa) {
+    public Map<String, Object> cadastrarEmpresa(@Valid @RequestBody EmpresaDTO empresa) {
 
             return empresaService.cadastrarEmpresa(empresa);
 
@@ -95,7 +96,7 @@ public class EmpresaController {
                     """)))
     })
     @PutMapping(value = "/{cnpj}", consumes = "application/json", produces = "application/json")
-    public Map<String, Object> atualizarEmpresa(@PathVariable String cnpj, @RequestBody EmpresaDTO empresa) {
+    public Map<String, Object> atualizarEmpresa(@PathVariable String cnpj, @Valid @RequestBody EmpresaDTO empresa) {
 
             return empresaService.atualizarEmpresa(cnpj, empresa);
 

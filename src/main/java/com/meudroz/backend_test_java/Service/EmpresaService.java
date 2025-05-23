@@ -27,11 +27,8 @@ public class EmpresaService {
     }
 
     public List<Map<String, Object>> listarEmpresas() {
-        // Chama o repositório para buscar a lista de empresas
         List<Map<String, Object>> empresas = empresaRepository.listarEmpresas();
 
-        // Lógica adicional: Caso necessário, formate os dados aqui.
-        // Por exemplo, podemos mover a formatação do CNPJ para o Service.
         for (Map<String, Object> empresa : empresas) {
             String cnpj = (String) empresa.get("cnpj");
             empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
