@@ -12,13 +12,11 @@ import java.util.Map;
 @Service
 public class EmpresaService {
 
-    @Autowired
-    private final JdbcTemplate jdbcTemplate;
 
     private EmpresaRepository empresaRepository;
 
-    public EmpresaService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public EmpresaService(EmpresaRepository empresaRepository) {
+        this.empresaRepository = empresaRepository;
     }
 
     public Map<String, Object> cadastrarEmpresa(EmpresaDTO empresa){
