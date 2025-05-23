@@ -14,6 +14,10 @@ public class EmpresaRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    public EmpresaRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     public int inserirEmpresa(String nome, String cnpj, String endereco) {
         String sql = "INSERT INTO empresas (nome, cnpj, endereco) VALUES (?, ?, ?)";
         return jdbcTemplate.update(sql, nome, cnpj, endereco);
