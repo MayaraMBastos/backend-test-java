@@ -35,11 +35,14 @@ public class EmpresaController {
 
     private EmpresaService empresaService;
 
-    public EmpresaController(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
     private EmpresaDTO empresa;
+
+    public EmpresaController(JdbcTemplate jdbcTemplate, EmpresaValidator empresaValidator, EmpresaService empresaService, EmpresaDTO empresa) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.empresaValidator = empresaValidator;
+        this.empresaService = empresaService;
+        this.empresa = empresa;
+    }
 
     @Operation(summary = "Listar todas as empresas")
     @ApiResponse(responseCode = "200", description = "Lista de empresas cadastradas", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(example = """
