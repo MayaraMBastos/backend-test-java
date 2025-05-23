@@ -1,4 +1,4 @@
-name: backend_test_java
+version: '3.8'
 
 services:
   mysql_backend_test_java:
@@ -23,7 +23,7 @@ services:
       - .:/app
       - maven_cache:/root/.m2
     working_dir: /app
-    command: ["mvn", "spring-boot:run"]
+    command: ["sh", "-c", "mvn clean install && mvn spring-boot:run"]
     depends_on:
       - mysql_backend_test_java
 

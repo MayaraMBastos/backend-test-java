@@ -1,6 +1,7 @@
 package com.meudroz.backend_test_java.Service;
 
 import com.meudroz.backend_test_java.EmpresaDTO.EmpresaDTO;
+import com.meudroz.backend_test_java.Repository.EmpresaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -14,17 +15,19 @@ public class EmpresaService {
     @Autowired
     private final JdbcTemplate jdbcTemplate;
 
+    private EmpresaRepository empresaRepository;
+
     public EmpresaService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public Map<String, Object> cadastrarEmpresa(EmpresaDTO empresa){
         Map<String, Object> response = new HashMap<>();
+        int rows = empresaRepository.inserirEmpresa(empresa.nome, empresa.cnpj, empresa.endereco);
 
-        String sql = "INSERT INTO empresas (nome, cnpj, endereco) VALUES (?, ?, ?)";
-        int rows = jdbcTemplate.update(sql, empresa.nome, empresa.cnpj, empresa.endereco);
         response.put("mensagem", "Empresa cadastrada com sucesso.");
         response.put("linhasAfetadas", rows);
+
         return response;
     }
 
@@ -32,8 +35,7 @@ public class EmpresaService {
         Map<String, Object> response = new HashMap<>();
 
 
-        String sql = "UPDATE empresas SET nome = ?, endereco = ? WHERE cnpj = ?";
-        int rows = jdbcTemplate.update(sql, empresa.nome, empresa.endereco, empresa.cnpj);
+        int rows = empresaRepository.atualizarEmpresa(empresa.nome, empresa.endereco, empresa.cnpj);
 
         if (rows == 0) {
             response.put("erro", "Nenhuma empresa encontrada com o CNPJ fornecido.");
