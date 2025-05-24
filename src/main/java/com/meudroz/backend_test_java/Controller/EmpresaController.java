@@ -1,14 +1,13 @@
 package com.meudroz.backend_test_java.Controller;
 
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
 import com.meudroz.backend_test_java.EmpresaDTO.EmpresaDTO;
 import com.meudroz.backend_test_java.Service.EmpresaService;
-import com.meudroz.backend_test_java.Utils.EmpresaValidator;
+
 import jakarta.validation.Valid;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,8 +30,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class EmpresaController {
 
 
-
-    private EmpresaService empresaService;
+    private final EmpresaService empresaService;
 
 
     public EmpresaController(EmpresaService empresaService) {

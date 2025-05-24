@@ -17,9 +17,9 @@ public class EmpresaService {
 
 
     @Autowired
-    private EmpresaRepository empresaRepository;
+    private final EmpresaRepository empresaRepository;
     @Autowired
-    private EmpresaValidator empresaValidator;
+    private final EmpresaValidator empresaValidator;
 
 
     public EmpresaService(EmpresaRepository empresaRepository, EmpresaValidator empresaValidator) {
@@ -45,7 +45,7 @@ public class EmpresaService {
             return Map.of("erro", "Empresa não encontrada com o CNPJ fornecido.");
         }
 
-        Map<String, Object> empresa = resultado.get(0);
+        Map<String, Object> empresa = resultado.getFirst();
 
         String cnpjFormatado = ((String) empresa.get("cnpj"))
                 .replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");
