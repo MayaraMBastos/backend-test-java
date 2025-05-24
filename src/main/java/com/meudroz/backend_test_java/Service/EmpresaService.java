@@ -65,8 +65,9 @@ public class EmpresaService {
             return response;
         }
 
+        String cnpjLimpo = empresaValidator.limparCnpj(empresa.getCnpj());
 
-        int linhasAfetadas = empresaRepository.inserirEmpresa(empresa.getNome(), empresa.getCnpj(), empresa.getEndereco());
+        int linhasAfetadas = empresaRepository.inserirEmpresa(empresa.getNome(), cnpjLimpo, empresa.getEndereco());
 
 
         if (linhasAfetadas > 0) {
