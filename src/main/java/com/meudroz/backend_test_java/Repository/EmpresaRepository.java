@@ -47,6 +47,11 @@ public class EmpresaRepository {
         return jdbcTemplate.queryForList(sql, cnpj);
     }
 
+    public int deletarEmpresaPorCnpj(String cnpj) {
+        String sql = "DELETE FROM empresas WHERE cnpj = ?";
+        return jdbcTemplate.update(sql, cnpj);
+    }
+
 
 
 }

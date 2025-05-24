@@ -111,5 +111,28 @@ public class EmpresaService {
         return response;
     }
 
+    public Map<String, Object> deletarEmpresa(String cnpj) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        String cnpjLimpo = empresaValidator.limparCnpj(cnpj);
+        boolean empresaExiste = empresaRepository.existeEmpresaPorCnpj(cnpjLimpo);
+        if (!empresaExiste) {
+            response.put("erro", "Empresa não encontrada com o CNPJ fornecido.");
+            return response;
+        }
+
+
+        int linhasAfetadas = empresaRepository.deletarEmpresaPorCnpj(cnpjLimpo);
+        if (linhasAfetadas > 0) {
+            response.put("mensagem", "Empresa deletada com sucesso.");
+            response.put("linhasAfetadas", linhasAfetadas);
+        } else {
+            response.put("erro", "Erro ao deletar a empresa.");
+        }
+
+        return response;
+    }
+
 
 }
