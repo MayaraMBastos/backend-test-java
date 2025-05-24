@@ -31,7 +31,7 @@ public class EmpresaValidator {
             return response;
         }
 
-        String cnpjLimpo = empresa.getCnpj().replaceAll("[^0-9]", "");
+       String cnpjLimpo = limparCnpj(empresa.getCnpj());
 
         if (cnpjLimpo.length() != 14) {
             response.put("erro", "O CNPJ deve ter exatamente 14 dígitos numéricos.");
@@ -43,6 +43,10 @@ public class EmpresaValidator {
             return response;
         }
         return response;
+    }
+
+    public String limparCnpj(String cnpj) {
+       return cnpj.replaceAll("[^0-9]", "");
     }
 }
 
