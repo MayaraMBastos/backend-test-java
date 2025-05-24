@@ -8,7 +8,8 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "empresas")
 public class EmpresaEntity {
 
-    @Column(name = "id")
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "nome")
@@ -21,11 +22,8 @@ public class EmpresaEntity {
     private String cnpj;
     @Column(name = "endereco")
     @NotNull
-    @OneToMany(cascade = CascadeType.ALL)
     private String endereco;
 
-//    @OneToMany(mappedBy = "empresas", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Endereco> enderecos = new ArrayList<>();
 
     public Long getId() {
         return id;

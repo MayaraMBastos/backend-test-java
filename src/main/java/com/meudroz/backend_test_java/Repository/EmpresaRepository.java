@@ -33,7 +33,7 @@ public class EmpresaRepository {
 
     public int atualizarEmpresaPorCnpj(String cnpj, EmpresaDTO empresa) {
         String sql = "UPDATE empresas SET nome = ?, endereco = ? WHERE cnpj = ?";
-        return jdbcTemplate.update(sql, empresa.nome, empresa.endereco, cnpj);
+        return jdbcTemplate.update(sql, empresa.getNome(), empresa.getEndereco(), cnpj);
     }
 
 

@@ -67,7 +67,7 @@ public class EmpresaService {
         }
 
 
-        int linhasAfetadas = empresaRepository.inserirEmpresa(empresa.nome, empresa.cnpj, empresa.endereco);
+        int linhasAfetadas = empresaRepository.inserirEmpresa(empresa.getNome(), empresa.getCnpj(), empresa.getEndereco());
 
 
         if (linhasAfetadas > 0) {

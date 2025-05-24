@@ -15,18 +15,12 @@ services:
       - mysql_data:/var/lib/mysql
 
   app_backend_test_java:
-    image: maven:3.9.9-amazoncorretto-21-alpine
+    build: .
     container_name: backend_test_java
     ports:
       - "8080:8080"
-    volumes:
-      - .:/app
-      - maven_cache:/root/.m2
-    working_dir: /app
-    command: ["sh", "-c", "mvn clean install && mvn spring-boot:run"]
     depends_on:
       - mysql_backend_test_java
 
 volumes:
   mysql_data:
-  maven_cache:
