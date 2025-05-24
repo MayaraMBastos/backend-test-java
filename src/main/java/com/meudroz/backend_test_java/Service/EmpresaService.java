@@ -92,7 +92,7 @@ public class EmpresaService {
             return response;
         }
 
-String cnpjLimpo = empresaValidator.limparCnpj(cnpj);
+        String cnpjLimpo = empresaValidator.limparCnpj(cnpj);
         boolean empresaExiste = empresaRepository.existeEmpresaPorCnpj(cnpjLimpo);
         if (!empresaExiste) {
             response.put("erro", "Empresa não encontrada com o CNPJ fornecido.");

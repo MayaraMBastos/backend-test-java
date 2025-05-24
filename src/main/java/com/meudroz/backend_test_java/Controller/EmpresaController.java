@@ -8,13 +8,7 @@ import com.meudroz.backend_test_java.EmpresaDTO.EmpresaDTO;
 import com.meudroz.backend_test_java.Service.EmpresaService;
 
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -99,5 +93,10 @@ public class EmpresaController {
             return empresaService.atualizarEmpresa(cnpj, empresa);
 
 
+    }
+
+    @DeleteMapping(value = "/{cnpj}", consumes = "application/json", produces = "application/json")
+    public Map<String, Object> deletarEmpresa(@PathVariable String cnpj) {
+        return empresaService.deletarEmpresa(cnpj);
     }
 }
