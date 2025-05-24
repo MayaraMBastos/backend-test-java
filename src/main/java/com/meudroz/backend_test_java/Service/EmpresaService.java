@@ -39,7 +39,9 @@ public class EmpresaService {
     }
 
     public Map<String, Object> buscarPorCnpj(String cnpj) {
-        List<Map<String, Object>> resultado = empresaRepository.buscarPorCnpj(cnpj);
+
+        String cnpjLimpo = empresaValidator.limparCnpj(cnpj);
+        List<Map<String, Object>> resultado = empresaRepository.buscarPorCnpj(cnpjLimpo);
 
         if (resultado.isEmpty()) {
             return Map.of("erro", "Empresa não encontrada com o CNPJ fornecido.");
@@ -47,10 +49,7 @@ public class EmpresaService {
 
         Map<String, Object> empresa = resultado.getFirst();
 
-        String cnpjFormatado = ((String) empresa.get("cnpj"))
-                .replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");
-
-        empresa.put("cnpj", cnpjFormatado);
+        empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
 
         return empresa;
     }
