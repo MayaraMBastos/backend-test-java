@@ -92,15 +92,15 @@ public class EmpresaService {
             return response;
         }
 
-
-        boolean empresaExiste = empresaRepository.existeEmpresaPorCnpj(cnpj);
+String cnpjLimpo = empresaValidator.limparCnpj(cnpj);
+        boolean empresaExiste = empresaRepository.existeEmpresaPorCnpj(cnpjLimpo);
         if (!empresaExiste) {
             response.put("erro", "Empresa não encontrada com o CNPJ fornecido.");
             return response;
         }
 
 
-        int linhasAfetadas = empresaRepository.atualizarEmpresaPorCnpj(cnpj, empresa);
+        int linhasAfetadas = empresaRepository.atualizarEmpresaPorCnpj(cnpjLimpo, empresa);
         if (linhasAfetadas > 0) {
             response.put("mensagem", "Empresa atualizada com sucesso.");
             response.put("linhasAfetadas", linhasAfetadas);
