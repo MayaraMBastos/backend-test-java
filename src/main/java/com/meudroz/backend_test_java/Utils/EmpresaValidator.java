@@ -1,7 +1,6 @@
 package com.meudroz.backend_test_java.Utils;
 
 import com.meudroz.backend_test_java.EmpresaDTO.EmpresaDTO;
-import com.meudroz.backend_test_java.Repository.EmpresaRepository;
 import org.springframework.stereotype.Component;
 
 import java.net.URLDecoder;
