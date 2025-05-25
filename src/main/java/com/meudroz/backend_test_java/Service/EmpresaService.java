@@ -58,14 +58,20 @@ public class EmpresaService {
     public Map<String, Object> cadastrarEmpresa(@Valid EmpresaDTO empresa) {
         Map<String, Object> response = new HashMap<>();
 
+        String cnpjLimpo = empresaValidator.limparCnpj(empresa.getCnpj());
+
+        boolean existe = empresaRepository.existeEmpresaPorCnpj(cnpjLimpo);
+        if (existe) {
+            response.put("erro", "Empresa já cadastrada com o CNPJ fornecido.");
+            return response;
+        }
+
 
         Map<String, Object> erros = empresaValidator.validarCadastroDeEmpresa(empresa);
         if (!erros.isEmpty()) {
             response.put("erros", erros);
             return response;
         }
-
-        String cnpjLimpo = empresaValidator.limparCnpj(empresa.getCnpj());
 
 
         int linhasAfetadas = empresaRepository.inserirEmpresa(empresa.getNome(), cnpjLimpo, empresa.getEndereco());
@@ -86,17 +92,16 @@ public class EmpresaService {
     public Map<String, Object> atualizarEmpresa(String cnpj, @Valid EmpresaDTO empresa) {
         Map<String, Object> response = new HashMap<>();
 
-
-        Map<String, Object> erros = empresaValidator.validarCadastroDeEmpresa(empresa);
-        if (!erros.isEmpty()) {
-            response.put("erros", erros);
-            return response;
-        }
-
         String cnpjLimpo = empresaValidator.limparCnpj(cnpj);
         boolean empresaExiste = empresaRepository.existeEmpresaPorCnpj(cnpjLimpo);
         if (!empresaExiste) {
             response.put("erro", "Empresa não encontrada com o CNPJ fornecido.");
+            return response;
+        }
+
+        Map<String, Object> erros = empresaValidator.validarCadastroDeEmpresa(empresa);
+        if (!erros.isEmpty()) {
+            response.put("erros", erros);
             return response;
         }
 
