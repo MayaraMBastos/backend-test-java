@@ -29,21 +29,9 @@ public class EmpresaService {
         this.empresaValidator = empresaValidator;
     }
 
-//    public List<Map<String, Object>> listarEmpresas() {
-//        List<Map<String, Object>> empresas = empresaRepository.listarEmpresas();
-//
-//        for (Map<String, Object> empresa : empresas) {
-//            String cnpj = (String) empresa.get("cnpj");
-//            empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
-//        }
-//
-//        return empresas;
-//    }
 
 
     public List<EmpresaResponseDTO> listarEmpresas() {
-        // Aqui deve ser implementada a lógica para buscar empresas no banco de dados.
-        // Exemplo utilizando dados mockados:
         List<EmpresaResponseDTO> empresas = new ArrayList<>();
         empresas.add(new EmpresaResponseDTO("JAVA TESTE Ltda", "12345678000112", "Rua do teste, 123"));
         empresas.add(new EmpresaResponseDTO("Outra Empresa Ltda", "98765432000199", "Rua do exemplo, 456"));
@@ -51,21 +39,45 @@ public class EmpresaService {
     }
 
 
-    public Map<String, Object> buscarPorCnpj(String cnpj) {
+//    public Map<String, Object> buscarPorCnpj(String cnpj) {
+//
+//        String cnpjLimpo = empresaValidator.limparCnpj(cnpj);
+//        List<Map<String, Object>> resultado = empresaRepository.buscarPorCnpj(cnpjLimpo);
+//
+//        if (resultado.isEmpty()) {
+//            return Map.of("erro", "Empresa não encontrada com o CNPJ fornecido.");
+//        }
+//
+//        Map<String, Object> empresa = resultado.getFirst();
+//
+//        empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
+//
+//        return empresa;
+//    }
 
+    public EmpresaResponseDTO buscarPorCnpj(String cnpj) {
+        // Limpa e formata o CNPJ
         String cnpjLimpo = empresaValidator.limparCnpj(cnpj);
+
+        // Realiza a busca no repositório
         List<Map<String, Object>> resultado = empresaRepository.buscarPorCnpj(cnpjLimpo);
 
+        // Verifica se a empresa foi encontrada
         if (resultado.isEmpty()) {
-            return Map.of("erro", "Empresa não encontrada com o CNPJ fornecido.");
+            throw new IllegalArgumentException("Empresa não encontrada com o CNPJ fornecido.");
         }
 
-        Map<String, Object> empresa = resultado.getFirst();
+        Map<String, Object> empresa = resultado.get(0);
 
-        empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
+        String nome = (String) empresa.get("nome");
+        String endereco = (String) empresa.get("endereco");
 
-        return empresa;
+        // Formata o CNPJ para o padrão desejado
+        String cnpjFormatado = cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");
+
+        return new EmpresaResponseDTO(nome, cnpjFormatado, endereco);
     }
+
 
 
     public Map<String, Object> cadastrarEmpresa(@Valid EmpresaDTO empresa) {
