@@ -1,7 +1,7 @@
 package com.meudroz.backend_test_java.Service;
 
 import com.meudroz.backend_test_java.EmpresaDTO.EmpresaDTO;
-import com.meudroz.backend_test_java.EmpresaDTO.EmpresaResponseDTO;
+
 import com.meudroz.backend_test_java.Repository.EmpresaRepository;
 
 import com.meudroz.backend_test_java.Utils.EmpresaValidator;
@@ -9,7 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,53 +30,34 @@ public class EmpresaService {
     }
 
 
+    public List<Map<String, Object>> listarEmpresas() {
+        List<Map<String, Object>> empresas = empresaRepository.listarEmpresas();
 
-    public List<EmpresaResponseDTO> listarEmpresas() {
-        List<EmpresaResponseDTO> empresas = new ArrayList<>();
-        empresas.add(new EmpresaResponseDTO("JAVA TESTE Ltda", "12345678000112", "Rua do teste, 123"));
-        empresas.add(new EmpresaResponseDTO("Outra Empresa Ltda", "98765432000199", "Rua do exemplo, 456"));
+        for (Map<String, Object> empresa : empresas) {
+            String cnpj = (String) empresa.get("cnpj");
+            empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
+        }
+
         return empresas;
     }
 
+// iria utilizar um encapsulamento de DTOs neste metodo, pois a resposta da requisicao GET (buscarEmpresaPorCnpj) espera dados percistidos do banco quanto mensagens de validacoes, erros e sucessos como resposta.
+    public Map<String, Object> buscarPorCnpj(String cnpj) {
 
-//    public Map<String, Object> buscarPorCnpj(String cnpj) {
-//
-//        String cnpjLimpo = empresaValidator.limparCnpj(cnpj);
-//        List<Map<String, Object>> resultado = empresaRepository.buscarPorCnpj(cnpjLimpo);
-//
-//        if (resultado.isEmpty()) {
-//            return Map.of("erro", "Empresa não encontrada com o CNPJ fornecido.");
-//        }
-//
-//        Map<String, Object> empresa = resultado.getFirst();
-//
-//        empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
-//
-//        return empresa;
-//    }
-
-    public EmpresaResponseDTO buscarPorCnpj(String cnpj) {
-        // Limpa e formata o CNPJ
         String cnpjLimpo = empresaValidator.limparCnpj(cnpj);
-
-        // Realiza a busca no repositório
         List<Map<String, Object>> resultado = empresaRepository.buscarPorCnpj(cnpjLimpo);
 
-        // Verifica se a empresa foi encontrada
         if (resultado.isEmpty()) {
-            throw new IllegalArgumentException("Empresa não encontrada com o CNPJ fornecido.");
+            return Map.of("erro", "Empresa não encontrada com o CNPJ fornecido.");
         }
 
-        Map<String, Object> empresa = resultado.get(0);
+        Map<String, Object> empresa = resultado.getFirst();
 
-        String nome = (String) empresa.get("nome");
-        String endereco = (String) empresa.get("endereco");
+        empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
 
-        // Formata o CNPJ para o padrão desejado
-        String cnpjFormatado = cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");
-
-        return new EmpresaResponseDTO(nome, cnpjFormatado, endereco);
+        return empresa;
     }
+
 
 
 
