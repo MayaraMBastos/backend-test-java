@@ -12,9 +12,11 @@ import java.util.Map;
 @Component
 public class EmpresaValidator {
 
-    private final Map<String, Object> response = new HashMap<>();
 
     public Map<String, Object> validarCadastroDeEmpresa(EmpresaDTO empresa) {
+
+        Map<String, Object> response = new HashMap<>(); // Instância local do Map
+
         if (empresa.getNome() == null || empresa.getNome().trim().isEmpty()) {
             response.put("erro", "O nome é obrigatório.");
             return response;
