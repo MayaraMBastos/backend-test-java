@@ -1,6 +1,7 @@
 package com.meudroz.backend_test_java.Utils;
 
 import com.meudroz.backend_test_java.EmpresaDTO.EmpresaDTO;
+import com.meudroz.backend_test_java.Repository.EmpresaRepository;
 import org.springframework.stereotype.Component;
 
 import java.net.URLDecoder;
@@ -12,6 +13,11 @@ import java.util.Map;
 public class EmpresaValidator {
 
     private final Map<String, Object> response = new HashMap<>();
+    private EmpresaRepository empresaRepository;
+
+    public EmpresaValidator(EmpresaRepository empresaRepository) {
+        this.empresaRepository = empresaRepository;
+    }
 
     public Map<String, Object> validarCadastroDeEmpresa(EmpresaDTO empresa) {
         if (empresa.getNome() == null || empresa.getNome().trim().isEmpty()) {
@@ -34,6 +40,11 @@ public class EmpresaValidator {
         }
 
        String cnpjLimpo = limparCnpj(empresa.getCnpj());
+
+        if (empresaRepository.existeEmpresaPorCnpj(cnpjLimpo)) {
+            response.put("erro","Cnpj já cadastrado no banco");
+            return response;
+        }
 
         if (cnpjLimpo.length() != 14) {
             response.put("erro", "O CNPJ deve ter exatamente 14 dígitos numéricos.");
