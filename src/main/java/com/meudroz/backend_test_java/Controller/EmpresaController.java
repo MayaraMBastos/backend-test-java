@@ -94,8 +94,16 @@ public class EmpresaController {
 
 
     }
-
-    @DeleteMapping(value = "/{cnpj}", consumes = "application/json", produces = "application/json")
+    @Operation(summary = "Deletar dados de uma empresa pelo CNPJ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Empresa deletada ou erro de validação", content = @Content(mediaType = "application/json", schema = @Schema(example = """
+                      {
+                        "mensagem": "Empresa deletada com sucesso.",
+                        "linhasAfetadas": 1
+                      }
+                    """)))
+    })
+    @DeleteMapping(value = "/{cnpj}", produces = "application/json")
     public Map<String, Object> deletarEmpresa(@PathVariable String cnpj) {
         return empresaService.deletarEmpresa(cnpj);
     }

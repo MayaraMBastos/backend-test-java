@@ -3,6 +3,8 @@ package com.meudroz.backend_test_java.Utils;
 import com.meudroz.backend_test_java.EmpresaDTO.EmpresaDTO;
 import org.springframework.stereotype.Component;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +48,12 @@ public class EmpresaValidator {
     }
 
     public String limparCnpj(String cnpj) {
-       return cnpj.replaceAll("[^0-9]", "");
+        // Decodificar a URL caso ela venha codificada (ex: %2F para /)
+        String cnpjDecodificado = URLDecoder.decode(cnpj, StandardCharsets.UTF_8);
+
+        // Remover tudo que não for dígito (0-9)
+        return cnpjDecodificado.replaceAll("[^0-9]", "");
     }
+
 }
 
