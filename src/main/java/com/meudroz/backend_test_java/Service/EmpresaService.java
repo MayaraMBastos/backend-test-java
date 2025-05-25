@@ -1,6 +1,7 @@
 package com.meudroz.backend_test_java.Service;
 
 import com.meudroz.backend_test_java.EmpresaDTO.EmpresaDTO;
+import com.meudroz.backend_test_java.EmpresaDTO.EmpresaResponseDTO;
 import com.meudroz.backend_test_java.Repository.EmpresaRepository;
 
 import com.meudroz.backend_test_java.Utils.EmpresaValidator;
@@ -8,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,16 +29,27 @@ public class EmpresaService {
         this.empresaValidator = empresaValidator;
     }
 
-    public List<Map<String, Object>> listarEmpresas() {
-        List<Map<String, Object>> empresas = empresaRepository.listarEmpresas();
+//    public List<Map<String, Object>> listarEmpresas() {
+//        List<Map<String, Object>> empresas = empresaRepository.listarEmpresas();
+//
+//        for (Map<String, Object> empresa : empresas) {
+//            String cnpj = (String) empresa.get("cnpj");
+//            empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
+//        }
+//
+//        return empresas;
+//    }
 
-        for (Map<String, Object> empresa : empresas) {
-            String cnpj = (String) empresa.get("cnpj");
-            empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
-        }
 
+    public List<EmpresaResponseDTO> listarEmpresas() {
+        // Aqui deve ser implementada a lógica para buscar empresas no banco de dados.
+        // Exemplo utilizando dados mockados:
+        List<EmpresaResponseDTO> empresas = new ArrayList<>();
+        empresas.add(new EmpresaResponseDTO("JAVA TESTE Ltda", "12345678000112", "Rua do teste, 123"));
+        empresas.add(new EmpresaResponseDTO("Outra Empresa Ltda", "98765432000199", "Rua do exemplo, 456"));
         return empresas;
     }
+
 
     public Map<String, Object> buscarPorCnpj(String cnpj) {
 

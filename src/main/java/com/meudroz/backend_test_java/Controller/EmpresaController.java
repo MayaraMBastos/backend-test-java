@@ -3,8 +3,10 @@ package com.meudroz.backend_test_java.Controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.meudroz.backend_test_java.EmpresaDTO.EmpresaDTO;
+import com.meudroz.backend_test_java.EmpresaDTO.EmpresaResponseDTO;
 import com.meudroz.backend_test_java.Service.EmpresaService;
 
 import jakarta.validation.Valid;
@@ -32,17 +34,19 @@ public class EmpresaController {
     }
 
     @Operation(summary = "Listar todas as empresas")
-    @ApiResponse(responseCode = "200", description = "Lista de empresas cadastradas", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(example = """
-              {
-                "nome": "JAVA TESTE Ltda",
-                "cnpj": "12.345.678/0001-12",
-                "endereco": "Rua do teste, 123"
-              }
-            """))))
+    @ApiResponse(responseCode = "200", description = "Lista de empresas cadastradas", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = EmpresaResponseDTO.class))))
     @GetMapping(produces = "application/json")
-    public List<Map<String, Object>> listarEmpresas()  {
-        return empresaService.listarEmpresas();
+    public List<EmpresaResponseDTO> listarEmpresas() {
+        // Converte os dados retornados do service para EmpresaResponseDTO
+        return empresaService.listarEmpresas().stream()
+                .map(data -> new EmpresaResponseDTO(
+                        (String) data.getNome(),
+                        (String) data.getCnpj(),
+                        (String) data.getEndereco()
+                ))
+                .collect(Collectors.toList());
     }
+
 
 
     @Operation(summary = "Buscar uma empresa pelo CNPJ")
