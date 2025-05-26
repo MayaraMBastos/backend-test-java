@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
-  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
   <changeSet id="2025100931" author="vcruz">
     <createTable tableName="empresas">
@@ -18,9 +18,16 @@
       <column name="endereco" type="VARCHAR(200)" >
         <constraints nullable="false"/>
       </column>
+    </createTable>
+  </changeSet>
+
+  <!-- Novo changeSet apenas para a coluna telefone -->
+  <changeSet id="2025100932" author="vcruz">
+    <addColumn tableName="empresas">
       <column name="telefone" type="VARCHAR(14)">
         <constraints nullable="false"/>
       </column>
-    </createTable>
+    </addColumn>
   </changeSet>
+
 </databaseChangeLog>
