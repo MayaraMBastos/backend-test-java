@@ -34,6 +34,7 @@ public class EmpresaService {
         List<Map<String, Object>> empresas = empresaRepository.listarEmpresas();
 
         for (Map<String, Object> empresa : empresas) {
+            //formatcao para efeito de visualizacao
             String cnpj = (String) empresa.get("cnpj");
             empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
         }
@@ -80,7 +81,7 @@ public class EmpresaService {
         }
 
 
-        int linhasAfetadas = empresaRepository.inserirEmpresa(empresa.getNome(), cnpjLimpo, empresa.getEndereco());
+        int linhasAfetadas = empresaRepository.inserirEmpresa(empresa.getNome(), cnpjLimpo, empresa.getEndereco(), empresa.getTelefone());
 
 
         if (linhasAfetadas > 0) {
