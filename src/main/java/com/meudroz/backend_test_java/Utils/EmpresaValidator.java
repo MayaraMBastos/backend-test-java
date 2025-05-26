@@ -35,6 +35,18 @@ public class EmpresaValidator {
             return response;
         }
 
+        if (empresa.getTelefone() == null || empresa.getTelefone().trim().isEmpty()) {
+            response.put("erro", "O numero de telefone é obrigatório.");
+            return response;
+        }
+
+        String telefoneLimpo = limparTelefone(empresa.getTelefone());
+
+        if (telefoneLimpo.length() < 10 || telefoneLimpo.length() >=11) {
+            response.put("erro", "O numero de telefone deve conter o DDD, exemplo 11 99999-9999.");
+            return response;
+        }
+
        String cnpjLimpo = limparCnpj(empresa.getCnpj());
 
 
@@ -56,6 +68,10 @@ public class EmpresaValidator {
 
         // Remover tudo que não for dígito (0-9)
         return cnpjDecodificado.replaceAll("[^0-9]", "");
+    }
+
+    public String limparTelefone(String telefone) {
+        return telefone.replaceAll("[^0-9]", "");
     }
 
 }
