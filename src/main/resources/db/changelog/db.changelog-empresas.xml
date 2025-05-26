@@ -15,13 +15,12 @@
       <column name="cnpj" type="VARCHAR(18)">
         <constraints nullable="false" unique="true" />
       </column>
-      <column name="endereco" type="VARCHAR(200)" >
+      <column name="endereco" type="VARCHAR(200)">
         <constraints nullable="false"/>
       </column>
     </createTable>
   </changeSet>
 
-  <!-- Novo changeSet apenas para a coluna telefone -->
   <changeSet id="2025100932" author="vcruz">
     <addColumn tableName="empresas">
       <column name="telefone" type="VARCHAR(14)">

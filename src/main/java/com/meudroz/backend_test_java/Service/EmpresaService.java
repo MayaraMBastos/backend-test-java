@@ -36,7 +36,8 @@ public class EmpresaService {
         for (Map<String, Object> empresa : empresas) {
             //formatcao para efeito de visualizacao
             String cnpj = (String) empresa.get("cnpj");
-            empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
+            //empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
+            empresa.put("cnpj", cnpj);
         }
 
         return empresas;
@@ -54,7 +55,7 @@ public class EmpresaService {
 
         Map<String, Object> empresa = resultado.getFirst();
 
-        empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
+        //empresa.put("cnpj", cnpj.replaceAll("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5"));
 
         return empresa;
     }
@@ -80,8 +81,9 @@ public class EmpresaService {
             return response;
         }
 
+        String telefoneLimpo = empresaValidator.limparTelefone(empresa.getTelefone());
 
-        int linhasAfetadas = empresaRepository.inserirEmpresa(empresa.getNome(), cnpjLimpo, empresa.getEndereco(), empresa.getTelefone());
+        int linhasAfetadas = empresaRepository.inserirEmpresa(empresa.getNome(), cnpjLimpo, empresa.getEndereco(), telefoneLimpo);
 
 
         if (linhasAfetadas > 0) {
@@ -99,12 +101,16 @@ public class EmpresaService {
     public Map<String, Object> atualizarEmpresa(String cnpj, @Valid EmpresaDTO empresa) {
         Map<String, Object> response = new HashMap<>();
 
+
         String cnpjLimpo = empresaValidator.limparCnpj(cnpj);
+
+
         boolean empresaExiste = empresaRepository.existeEmpresaPorCnpj(cnpjLimpo);
         if (!empresaExiste) {
             response.put("erro", "Empresa não encontrada com o CNPJ fornecido.");
             return response;
         }
+
 
         Map<String, Object> erros = empresaValidator.validarCadastroDeEmpresa(empresa);
         if (!erros.isEmpty()) {
@@ -113,7 +119,18 @@ public class EmpresaService {
         }
 
 
-        int linhasAfetadas = empresaRepository.atualizarEmpresaPorCnpj(cnpjLimpo, empresa);
+        String telefoneLimpo = empresaValidator.limparTelefone(empresa.getTelefone());
+        empresa.setTelefone(telefoneLimpo); // Atualiza o telefone sanitizado no DTO
+        empresa.setCnpj(cnpjLimpo);         // Atualiza o CNPJ sanitizado no DTO
+
+
+        int linhasAfetadas = empresaRepository.atualizarEmpresaPorCnpj(
+                empresa.getNome(),
+                empresa.getEndereco(),
+                empresa.getTelefone(),
+                empresa.getCnpj()
+        );
+
         if (linhasAfetadas > 0) {
             response.put("mensagem", "Empresa atualizada com sucesso.");
             response.put("linhasAfetadas", linhasAfetadas);

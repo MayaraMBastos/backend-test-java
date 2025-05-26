@@ -40,14 +40,15 @@ public class EmpresaValidator {
             return response;
         }
 
-        String telefoneLimpo = limparTelefone(empresa.getTelefone());
+        String telefoneLimpo = limparTelefone(empresa.getTelefone().trim());
 
-        if (telefoneLimpo.length() < 10 || telefoneLimpo.length() >=11) {
-            response.put("erro", "O numero de telefone deve conter o DDD, exemplo 11 99999-9999.");
+        if (telefoneLimpo.length() < 10 || telefoneLimpo.length() > 15) {
+            response.put("erro", "O numero de telefone deve conter o DDD ou DDI e estar no formato correto, exemplo: +5511999999999 ou 11 99999-9999.");
             return response;
         }
 
-       String cnpjLimpo = limparCnpj(empresa.getCnpj());
+
+        String cnpjLimpo = limparCnpj(empresa.getCnpj());
 
 
         if (cnpjLimpo.length() != 14) {

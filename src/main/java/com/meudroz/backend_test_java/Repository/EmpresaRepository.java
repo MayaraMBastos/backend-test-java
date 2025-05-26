@@ -20,7 +20,7 @@ public class EmpresaRepository {
 
     public int inserirEmpresa(String nome, String cnpj, String endereco, String telefone) {
         String sql = "INSERT INTO empresas (nome, cnpj, endereco, telefone) VALUES (?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, nome, cnpj, endereco);
+        return jdbcTemplate.update(sql, nome, cnpj, endereco, telefone);
     }
 
 
@@ -31,9 +31,9 @@ public class EmpresaRepository {
     }
 
 
-    public int atualizarEmpresaPorCnpj(String cnpj, EmpresaDTO empresa) {
+    public int atualizarEmpresaPorCnpj(String nome, String endereco, String telefone, String cnpj) {
         String sql = "UPDATE empresas SET nome = ?, endereco = ?, telefone = ? WHERE cnpj = ?";
-        return jdbcTemplate.update(sql, empresa.getNome(), empresa.getEndereco(), cnpj);
+        return jdbcTemplate.update(sql, nome, endereco, telefone, cnpj);
     }
 
 

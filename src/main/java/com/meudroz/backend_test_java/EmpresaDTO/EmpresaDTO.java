@@ -20,7 +20,7 @@ public class EmpresaDTO {
     @NotBlank(message = "O endereço da empresa é obrigatório")
     private String endereco;
 
-    @Schema(description = "Numerode telefone da empresa", example = "(11) 9999-9999" )
+    @Schema(description = "Numerode telefone da empresa", example = "1199999999" )
     @NotBlank(message = "O Telefone da empresa é obrigatório")
     private String telefone;
 

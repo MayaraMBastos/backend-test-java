@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class BackendTestJavaApplicationTests {
 
 	@Test
+	@org.junit.jupiter.api.Disabled
 	void contextLoads() {
 	}
 

@@ -37,7 +37,7 @@ public class EmpresaController {
     @ApiResponse(responseCode = "200", description = "Lista de empresas cadastradas", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(example = """
               {
                 "nome": "JAVA TESTE Ltda",
-                "cnpj": "12.345.678/0001-12",
+                "cnpj": "12345678000112",
                 "endereco": "Rua do teste, 123",
                 "telefone": "11999999999"
               }
@@ -53,7 +53,7 @@ public class EmpresaController {
             @ApiResponse(responseCode = "200", description = "Empresa encontrada ou não encontrada", content = @Content(mediaType = "application/json", schema = @Schema(example = """
                       {
                         "nome": "JAVA TESTE Ltda",
-                        "cnpj": "12.345.678/0001-12",
+                        "cnpj": "12345678000112",
                         "endereco": "Rua do teste, 123",
                          "telefone": "11999999999"
                       }
