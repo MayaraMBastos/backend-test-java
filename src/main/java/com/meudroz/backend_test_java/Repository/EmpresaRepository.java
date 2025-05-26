@@ -19,7 +19,7 @@ public class EmpresaRepository {
     }
 
     public int inserirEmpresa(String nome, String cnpj, String endereco) {
-        String sql = "INSERT INTO empresas (nome, cnpj, endereco) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO empresas (nome, cnpj, endereco, telefone) VALUES (?, ?, ?, ?)";
         return jdbcTemplate.update(sql, nome, cnpj, endereco);
     }
 
@@ -32,18 +32,18 @@ public class EmpresaRepository {
 
 
     public int atualizarEmpresaPorCnpj(String cnpj, EmpresaDTO empresa) {
-        String sql = "UPDATE empresas SET nome = ?, endereco = ? WHERE cnpj = ?";
+        String sql = "UPDATE empresas SET nome = ?, endereco = ?, telefone = ? WHERE cnpj = ?";
         return jdbcTemplate.update(sql, empresa.getNome(), empresa.getEndereco(), cnpj);
     }
 
 
     public List<Map<String, Object>> listarEmpresas() {
-        String sql = "SELECT nome, cnpj, endereco FROM empresas";
+        String sql = "SELECT nome, cnpj, endereco, telefone FROM empresas";
         return jdbcTemplate.queryForList(sql);
     }
 
     public List<Map<String, Object>> buscarPorCnpj(String cnpj) {
-        String sql = "SELECT nome, cnpj, endereco FROM empresas WHERE cnpj = ?";
+        String sql = "SELECT nome, cnpj, endereco, telefone FROM empresas WHERE cnpj = ?";
         return jdbcTemplate.queryForList(sql, cnpj);
     }
 
