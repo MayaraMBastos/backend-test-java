@@ -20,6 +20,10 @@ public class EmpresaDTO {
     @NotBlank(message = "O endereço da empresa é obrigatório")
     private String endereco;
 
+    @Schema(description = "Numerode telefone da empresa", example = "(11) 9999-9999" )
+    @NotBlank(message = "O Telefone da empresa é obrigatório")
+    private String telefone;
+
     // Construtor padrão
     public EmpresaDTO() {}
 
@@ -32,4 +36,12 @@ public class EmpresaDTO {
 
     public String getEndereco() { return endereco; }
     public void setEndereco(String endereco) { this.endereco = endereco; }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
 }
