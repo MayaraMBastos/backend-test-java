@@ -24,6 +24,11 @@ public class EmpresaEntity {
     @NotNull
     private String endereco;
 
+    @Column(name = "telefone")
+    @NotNull
+    @NotBlank
+    private String telefone;
+
 
     public Long getId() {
         return id;
@@ -55,5 +60,13 @@ public class EmpresaEntity {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 }
