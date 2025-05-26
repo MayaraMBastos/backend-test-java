@@ -18,7 +18,7 @@ public class EmpresaRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public int inserirEmpresa(String nome, String cnpj, String endereco) {
+    public int inserirEmpresa(String nome, String cnpj, String endereco, String telefone) {
         String sql = "INSERT INTO empresas (nome, cnpj, endereco, telefone) VALUES (?, ?, ?, ?)";
         return jdbcTemplate.update(sql, nome, cnpj, endereco);
     }
