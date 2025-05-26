@@ -38,7 +38,8 @@ public class EmpresaController {
               {
                 "nome": "JAVA TESTE Ltda",
                 "cnpj": "12.345.678/0001-12",
-                "endereco": "Rua do teste, 123"
+                "endereco": "Rua do teste, 123",
+                "telefone": "(11) 99999-9999"
               }
             """))))
     @GetMapping(produces = "application/json")
@@ -53,7 +54,8 @@ public class EmpresaController {
                       {
                         "nome": "JAVA TESTE Ltda",
                         "cnpj": "12.345.678/0001-12",
-                        "endereco": "Rua do teste, 123"
+                        "endereco": "Rua do teste, 123",
+                         "telefone": "(11) 99999-9999"
                       }
                     """)))
     })
