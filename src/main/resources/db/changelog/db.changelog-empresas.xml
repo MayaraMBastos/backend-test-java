@@ -15,7 +15,12 @@
       <column name="cnpj" type="VARCHAR(18)">
         <constraints nullable="false" unique="true" />
       </column>
-      <column name="endereco" type="VARCHAR(200)" />
+      <column name="endereco" type="VARCHAR(200)" >
+        <constraints nullable="false"/>
+      </column>
+      <column name="telefone" type="VARCHAR(14)">
+        <constraints nullable="false"/>
+      </column>
     </createTable>
   </changeSet>
 </databaseChangeLog>
