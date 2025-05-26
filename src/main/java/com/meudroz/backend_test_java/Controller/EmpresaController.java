@@ -108,17 +108,17 @@ public class EmpresaController {
                       }
                     """)))
     })
-    @DeleteMapping(value = "/cnpj", consumes = "text/plain", produces = "application/json")
-    public Map<String, Object> deletarEmpresa(@RequestBody String cnpj) {
+    @DeleteMapping(value = "/{cnpj}", produces = "application/json")
+    public Map<String, Object> deletarEmpresa(@PathVariable String cnpj) { // Variavel passada na URL
         return empresaService.deletarEmpresa(cnpj);
     }
-//    @DeleteMapping(value = "/{cnpj}", produces = "application/json")
-//    public Map<String, Object> deletarEmpresa(@PathVariable String cnpj) {
+//    @DeleteMapping(value = "/cnpj", consumes = "text/plain", produces = "application/json")
+//    public Map<String, Object> deletarEmpresa(@RequestBody String cnpj) { // Variavel passada no corpo da requisicao
 //        return empresaService.deletarEmpresa(cnpj);
 //    }
 
-//    @DeleteMapping(consumes = "application/json", produces = "application/json")
-//    public Map<String, Object> deletarEmpresa(@RequestBody Map<String, String> requestBody) {
+//    @DeleteMapping(value = "/cnpj",consumes = "application/json", produces = "application/json")
+//    public Map<String, Object> deletarEmpresa(@RequestBody Map<String, String> requestBody) { //Variaves passadas no corpo  da requisicao
 //        String cnpj = requestBody.get("cnpj");
 //        return empresaService.deletarEmpresa(cnpj);
 //    }
